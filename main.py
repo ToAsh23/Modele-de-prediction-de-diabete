@@ -168,21 +168,6 @@ st.pyplot(fig3)
 texte_4="""
 
 """
-#### C'est pour le modèle de régression linéaire donc pas utile pour nous je vais donc l'enlever
-"""st.write("Dans les figures ci-dessous on peut voir la corrélation direct entre les Inputs et le Output")
-fig5, axs = plt.subplots(ncols=4, nrows=2, figsize=(20, 7))
-sns.regplot(y=df_3['diabetes'], x=df_3['gender'], ax=axs[0, 0])
-sns.regplot(y=df_3['diabetes'], x=df_3['age'], ax=axs[0, 1])
-sns.regplot(y=df_3['diabetes'], x=df_3['hypertension'], ax=axs[0, 2])
-sns.regplot(y=df_3['diabetes'], x=df_3['heart_disease'], ax=axs[0, 3])
-sns.regplot(y=df_3['diabetes'], x=df_3['smoking_history'], ax=axs[1, 0])
-sns.regplot(y=df_3['diabetes'], x=df_3['bmi'], ax=axs[1, 1])
-sns.regplot(y=df_3['diabetes'], x=df_3['HbA1c_level'], ax=axs[1, 2])
-sns.regplot(y=df_3['diabetes'], x=df_3['blood_glucose_level'], ax=axs[1, 3])
-plt.tight_layout()
-st.pyplot(fig5)"""
-
-
 
 st.subheader("Distribution des personnes atteintes de diabète après les traitements effectués")
 fig4, ax = plt.subplots(1,2, figsize=(18,8))
@@ -253,23 +238,15 @@ st.text(classification_report(y_test, rand_clf.predict(X_test)))
 st.write("Matrice de confusion LR :", confusion_matrix(y_test, log_reg.predict(X_test)))
 st.write("Matrice de confusion RF :", confusion_matrix(y_test, rand_clf.predict(X_test)))
 
-# Tu peux compléter avec tous tes tableaux à afficher ainsi :
-'''st.write("Description du dataset filtré :")
-st.dataframe(df_3.describe())
-st.write("Valeurs manquantes (filtrées) :")
-st.write(df_3.isnull().sum())'''
-
-
 st.divider()
 
-st.subheader("Importance des variables pour le modèle RF")
+st.header("Importance des variables du modèle Random Forest")
 feature_names = X_train.columns.tolist()
 importances = pd.DataFrame({
     'Feature': feature_names,
     'Importance': rand_clf.feature_importances_
 }).sort_values(by='Importance', ascending=False)
 
-st.header("Importance des variables du modèle Random Forest")
 
 fig_imp_rf, ax = plt.subplots(figsize=(6, 4))
 sns.barplot(x='Importance', y='Feature', data=importances, palette='viridis', ax=ax)
@@ -309,7 +286,7 @@ def load_and_train():
 
 logreg, randforest = load_and_train()
 
-# ==== Choix du mode ====
+# Choix du mode d'entré des données
 mode = st.radio("Mode d'entrée", ["Uploader un fichier CSV", "Remplir le formulaire manuellement"])
 
 input_df = None
