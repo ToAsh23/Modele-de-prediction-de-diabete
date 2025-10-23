@@ -14,6 +14,9 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 
 
 
+class Toc:
+    # ... (toutes les méthodes ici)
+    pass
 
 
 # === INITIALISATION DU SOMMAIRE ===
