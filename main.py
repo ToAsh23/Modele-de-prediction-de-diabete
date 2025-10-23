@@ -13,17 +13,6 @@ from sklearn.metrics import confusion_matrix, accuracy_score, mean_squared_error
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 
 
-# SOMMAIRE DANS LA SIDEBAR
-with st.sidebar:
-    st.markdown("## 📋 Navigation")
-    st.page_link("", label="🏠 Introduction", disabled=False)
-    if st.button("Introduction"):
-        st.markdown('<a href="#introduction"></a>', unsafe_allow_html=True)
-    if st.button("Objectif du projet"):
-        st.markdown('<a href="#objectif-du-projet"></a>', unsafe_allow_html=True)
-    if st.button("Donnée trouvée"):
-        st.markdown('<a href="#donnée-trouvée"></a>', unsafe_allow_html=True)
-    # ... etc pour chaque section
 
 
 
