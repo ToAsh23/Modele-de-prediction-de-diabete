@@ -45,7 +45,7 @@ df_3 = df_2.copy()
 valeurs_uniques_smoking = df_3['smoking_history'].unique()
 
 df_3['smoking_history'] = df_3["smoking_history"].map({'never': 0, 'not current': 1, 'former': 2, 'ever': 2, 'current': 3})
-
+df_3
 st.divider()
 st.header("Analyse exploratoire : visualisations")
 
@@ -58,7 +58,6 @@ variable_select = st.selectbox('Choisissez une variable', variables)
 
 st.write("Sélectionnez la variable quantitative que vous voulez explorer :")
 
-df_3 = df_2.copy()
 
 if st.checkbox('Afficher les analyses et graphiques'):
     st.write(f'Variable sélectionnée : **{variable_select}**')
