@@ -54,7 +54,7 @@ st.dataframe(df)
 
 st.write("Vous avez ici la description du DataFrame :")
 st.dataframe(df.describe())
-st.dataframe(df.info())
+
 
 st.subheader("Prétraitement des données")
 texte_2="""
@@ -226,7 +226,7 @@ st.header("Préparation des Input et Output")
 texte_pred="""
 Les données traitées ont été subdivisées pour avoir des jeux de données qui seront utilisés pour entrainer les deux modèles et des jeux de données pour comparer avec les Output des modèles.
 
-Dans norte cas, les jeux de données ont été divisés en 80 % pour les modèles et 20 % pour la comparaison avec les modèles. La subdivision a été effectuée de manière aléatoire tout en tenant compte du pourcentage mentioné précédemment.
+Dans notre cas, les jeux de données ont été divisés en 80 % pour les modèles et 20 % pour la comparaison avec les modèles. La subdivision a été effectuée de manière aléatoire tout en tenant compte du pourcentage mentioné précédemment.
 """
 st.markdown(texte_pred)
 
@@ -235,15 +235,20 @@ col_name = df_3.drop('diabetes', axis=1).columns[:]
 x = df_3.loc[:, col_name]
 y = df_3['diabetes']
 X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
-X_train
-X_test
-y_train
-y_test
+
+
+
+
+
 st.subheader("Visualisation des Input et Output")
-st.dataframe(X_train.info())
-st.dataframe(y_train.info())
-st.dataframe(X_test.info())
-st.dataframe(y_test.info())
+X_train
+st.dataframe(X_train.describe())
+y_train
+st.dataframe(y_train.describe())
+X_test
+st.dataframe(X_test.describe())
+y_test
+st.dataframe(y_test.describe())
 
 
 
