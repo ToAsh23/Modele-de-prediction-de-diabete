@@ -13,12 +13,22 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 
 st.set_page_config(page_title="Vision générale", layout="wide")
 st.title('Projet : Prédiction de diabète')
+st.header('Introduction')
+texte = """
+le dièate est une maladie
+
+c'est pourquoi
+"""
+st.markdown(texte)
+st.divider()
 
 df = pd.read_csv('diabetes_prediction_dataset.csv')
-st.header("Aperçu des données")
-st.dataframe(df.head(10))
-st.write("Valeurs manquantes par colonne :")
-st.write(df.isnull().sum())
+st.header("Vous pouvez voir ici la base de donnée complète pour l'entrainement de nos modèles")
+st.dataframe(df)
+
+st.write("Vous avez ici la description du DataFrame :")
+st.write(df.describe())
+st.write(df.info())
 
 df_1 = df[df["smoking_history"] != "No Info"]
 st.write("Info DataFrame filtré:")
@@ -32,11 +42,13 @@ df_2['gender'] = df_2["gender"].map({'Female': 0, 'Male': 1})
 df_3 = df_2.copy()
 
 valeurs_uniques_smoking = df_3['smoking_history'].unique()
-st.write("Valeurs uniques de smoking_history :", valeurs_uniques_smoking)
 
 df_3['smoking_history'] = df_3["smoking_history"].map({'never': 0, 'not current': 1, 'former': 2, 'ever': 2, 'current': 3})
 
+st.divider()
 st.header("Analyse exploratoire : visualisations")
+
+st.write("Boîte à moustache en fonction du Diabète")
 num_features = ["age", "bmi", "HbA1c_level", "blood_glucose_level"]
 colors = {0: "steelblue", 1: "salmon"}
 labels = {0: "No Diabetes", 1: "Diabetes"}
@@ -66,12 +78,13 @@ sns.histplot(df_3.HbA1c_level, bins=20, ax=axarr[1,1], color="red")
 plt.tight_layout()
 st.pyplot(fig2)
 
+st.write("Matrice de corrélation entre les Inputs et le Output")
 fig3, ax3 = plt.subplots(figsize=[10,5])
 sns.heatmap(df_3.corr(), annot=True, fmt='.2f', ax=ax3, cmap='coolwarm')
 ax3.set_title("Correlation Matrix", fontsize=20)
 st.pyplot(fig3)
 
-# Pie et count plot
+st.write("Distribution des personnes atteintes de diabète après les prétraitements")
 fig4, ax = plt.subplots(1,2, figsize=(18,8))
 df_3['diabetes'].value_counts().plot.pie(explode=[0,0.1], autopct = "%1.1f%%", ax=ax[0], shadow=True)
 ax[0].set_title('target')
@@ -81,6 +94,7 @@ ax[1].set_title('diabetes')
 st.pyplot(fig4)
 
 # Régression linéaire plots
+st.write("Dans les figures ci-dessous on peut voir la corrélation direct entre les Inputs et le Output")
 fig5, axs = plt.subplots(ncols=4, nrows=2, figsize=(20, 7))
 sns.regplot(y=df_3['diabetes'], x=df_3['gender'], ax=axs[0, 0])
 sns.regplot(y=df_3['diabetes'], x=df_3['age'], ax=axs[0, 1])
@@ -93,6 +107,8 @@ sns.regplot(y=df_3['diabetes'], x=df_3['blood_glucose_level'], ax=axs[1, 3])
 plt.tight_layout()
 st.pyplot(fig5)
 
+
+st.divider()
 # Split data
 col_name = df_3.drop('diabetes', axis=1).columns[:]
 x = df_3.loc[:, col_name]
@@ -118,7 +134,7 @@ for m in models:
     auc = roc_auc_score(y_test, y_pred)
     means_roc.append(100 * round(auc, 4))
 
-st.header("Scores des modèles")
+st.header("Scores des deux modèles")
 st.write("Accuracy (%) LR et RF :", means_accuracy)
 st.write("ROC-AUC (%) LR et RF :", means_roc)
 
@@ -152,7 +168,7 @@ st.write("Valeurs manquantes (filtrées) :")
 st.write(df_3.isnull().sum())
 
 
-
+st.divider()
 st.set_page_config(page_title="Prédiction du diabète", layout="wide")
 st.title("Application Prédiction Diabète")
 
