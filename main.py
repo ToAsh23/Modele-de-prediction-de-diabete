@@ -222,11 +222,26 @@ Dans l'ensemble nos données contiennent plus de
 st.divider()
 
 st.header("Préparation des Input et Output")
+
+texte_pred="""
+Les données traitées ont été subdivisées pour avoir des jeux de données qui seront utilisés pour entrainer les deux modèles et des jeux de données pour comparer avec les Output des modèles.
+
+Dans norte cas, les jeux de données ont été divisés en 80 % pour les modèles et 20 % pour la comparaison avec les modèles. La subdivision a été effectuée de manière aléatoire tout en tenant compte du pourcentage mentioné précédemment.
+"""
+st.markdown(texte_pred)
+
 # Split data
 col_name = df_3.drop('diabetes', axis=1).columns[:]
 x = df_3.loc[:, col_name]
 y = df_3['diabetes']
 X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
+
+st.subheader("Visualisation des Input et Output")
+st.dataframe(X_train.info())
+st.dataframe(y_train.info())
+st.dataframe(X_test.info())
+st.dataframe(y_test.info())
+
 
 
 log_reg = LogisticRegression()
@@ -248,7 +263,15 @@ for m in models:
     auc = roc_auc_score(y_test, y_pred)
     means_roc.append(100 * round(auc, 4))
 
-st.header("Scores des deux modèles")
+st.header("Justification du choix des modèles")
+texte_just = """
+La "Logistic Regression" est très utile pour un problème de classification binaire (diabète oui/non) et interprète le risque en donnant une probabilité d'appartenance.  
+
+De l'autre côté le 'Random Forest Classifier" est un modèle non linéaire, c'est à dire il capture les interactions entre variables, et permet de définir l'importance des variables. Il est généralement plus performant en précision que les modèles linéaires. 
+"""
+st.markdown(texte_just)
+
+st.header("Performance des deux modèles")
 st.write("Accuracy (%) LR et RF :", means_accuracy)
 st.write("ROC-AUC (%) LR et RF :", means_roc)
 
@@ -294,6 +317,9 @@ plt.tight_layout()
 
 st.pyplot(fig_imp_rf)
 
+texte_imp ="""
+
+"""
 
 st.divider()
 st.set_page_config(page_title="Prédiction du diabète", layout="wide")
