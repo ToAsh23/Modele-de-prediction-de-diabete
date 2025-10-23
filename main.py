@@ -53,9 +53,11 @@ st.header("Analyse exploratoire : visualisations")
 
 
 st.subheader('Analyse interactive des variables')
+variables = ['age', 'bmi', 'HbA1c_level', 'blood_glucose_level','diabetes']
+variable_select = st.selectbox('Choisissez une variable', variables)
 
 st.write("Sélectionnez la variable quantitative que vous voulez explorer :")
-variable_select = st.selectbox('Choisissez une variable', variables)
+
 df_3 = df_2.copy()
 
 if st.checkbox('Afficher les analyses et graphiques'):
