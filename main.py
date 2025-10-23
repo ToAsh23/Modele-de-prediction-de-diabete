@@ -153,38 +153,76 @@ st.write(df_3.isnull().sum())
 
 
 
-st.title("Importer les données ici pour la prédiction du diabète 👨‍⚕️")
+st.set_page_config(page_title="Prédiction du diabète", layout="wide")
+st.title("Application Prédiction Diabète")
 
-# Option 1 : Upload depuis un csv
-uploaded_file = st.file_uploader("Importer un fichier CSV avec les colonnes: gender, age, hypertension, heart_disease, smoking_history, bmi, HbA1c_level, blood_glucose_level", type=["csv"])
+# ==== Charger les données et entrainer les modèles ====
+@st.cache_data
+def load_and_train():
+    # Remplace par ton vrai csv si nécessaire
+    df = pd.read_csv('diabetes_prediction_dataset.csv')
 
-if uploaded_file:
-    df_inp = pd.read_csv(uploaded_file)
-    st.success("Aperçu du DataFrame importé :")
-    st.dataframe(df_inp)
-else:
-    st.info("Ou bien entrez manuellement les informations ici 👨‍⚕️:")
-    gender = st.selectbox("Genre", options=['Female', 'Male'])
-    age = st.number_input("Âge", min_value=0, max_value=120)
-    hypertension = st.selectbox("Hypertension", options=[0, 1])
-    heart_disease = st.selectbox("Problème cardiaque", options=[0, 1])
-    smoking_history = st.selectbox("Historique tabagique", options=['never', 'not current', 'former', 'ever', 'current'])
-    bmi = st.number_input("IMC", min_value=10.0, max_value=70.0, format="%.2f")
-    HbA1c_level = st.number_input("HbA1c level", min_value=3.0, max_value=20.0, format="%.2f")
-    blood_glucose_level = st.number_input("Blood glucose level", min_value=50.0, max_value=600.0, format="%.2f")
+    df = df[df["smoking_history"] != "No Info"]
+    df = df[df["gender"] != "Other"]
+    df['gender'] = df["gender"].map({'Female': 0, 'Male': 1})
+    df['smoking_history'] = df["smoking_history"].map({'never': 0, 'not current': 1, 'former': 2, 'ever': 2, 'current': 3})
 
-    if st.button("Afficher l'entrée sous forme de DataFrame"):
-        df_inp = pd.DataFrame(
-            {
-                "gender": [gender],
-                "age": [age],
-                "hypertension": [hypertension],
-                "heart_disease": [heart_disease],
-                "smoking_history": [smoking_history],
-                "bmi": [bmi],
-                "HbA1c_level": [HbA1c_level],
-                "blood_glucose_level": [blood_glucose_level]
-            }
-        )
-        st.dataframe(df_inp)
+    X = df[['gender','age','hypertension','heart_disease','smoking_history','bmi','HbA1c_level','blood_glucose_level']]
+    y = df['diabetes']
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    lr = LogisticRegression()
+    rf = RandomForestClassifier(criterion = 'entropy', max_depth = 15, max_features = 0.75, min_samples_leaf = 2, min_samples_split = 3, n_estimators = 130)
+
+    lr.fit(X_train, y_train)
+    rf.fit(X_train, y_train)
+    return lr, rf
+
+logreg, randforest = load_and_train()
+
+# ==== Choix du mode ====
+mode = st.radio("Mode d'entrée", ["Uploader un fichier CSV", "Remplir le formulaire manuellement"])
+
+input_df = None
+
+if mode == "Uploader un fichier CSV":
+    uploaded_file = st.file_uploader("Choisis un fichier CSV contenant les colonnes requises :", type=["csv"])
+    if uploaded_file is not None:
+        df_input = pd.read_csv(uploaded_file)
+        st.write("Aperçu des entrées :")
+        st.dataframe(df_input)
+        input_df = df_input
+
+elif mode == "Remplir le formulaire manuellement":
+    st.write("Remplis les informations pour un seul patient :")
+    gender = st.selectbox("Genre", ["Homme", "Femme"])
+    gender_num = 1 if gender == "Homme" else 0
+    age = st.number_input("Âge", min_value=1, max_value=120, value=30)
+    hypertension = st.selectbox("Hypertension ?", ["Non", "Oui"])
+    heart_disease = st.selectbox("Problème cardiaque ?", ["Non", "Oui"])
+    smoking = st.selectbox("Historique tabagique", ["never", "not current", "former", "ever", "current"])
+    bmi = st.number_input("IMC", min_value=10.0, max_value=60.0, value=25.0)
+    a1c = st.number_input("HbA1c", min_value=2.0, max_value=18.0, value=5.2)
+    glucose = st.number_input("Glycémie", min_value=30.0, max_value=500.0, value=100.0)
+
+    input_df = pd.DataFrame({
+        'gender': [gender_num],
+        'age': [age],
+        'hypertension': [1 if hypertension=="Oui" else 0],
+        'heart_disease': [1 if heart_disease=="Oui" else 0],
+        'smoking_history': [ {'never': 0, 'not current': 1, 'former': 2, 'ever': 2, 'current': 3}[smoking] ],
+        'bmi': [bmi],
+        'HbA1c_level': [a1c],
+        'blood_glucose_level': [glucose]
+    })
+
+    st.write("Aperçu de votre saisie :")
+    st.dataframe(input_df)
+
+# ==== Prédiction ====
+if input_df is not None and st.button("Prédire le diabète"):
+    pred_lr = logreg.predict(input_df)
+    pred_rf = randforest.predict(input_df)
+    st.success(f"**Régression logistique prédit :** {'Diabétique' if pred_lr[0]==1 else 'Non diabétique'}")
+    st.success(f"**Random Forest prédit :** {'Diabétique' if pred_rf[0]==1 else 'Non diabétique'}")
 
