@@ -15,12 +15,35 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 st.set_page_config(page_title="Vision générale", layout="wide")
 st.title('Projet : Prédiction de diabète')
 st.header('Introduction')
-texte = """
-le dièate est une maladie
+texte_intro = """
+Bienvenue sur notre application permettant de mieux comprendre notre projet sur la prédiction du diabète à partir de la base de données Kaggle. 
 
-c'est pourquoi
+Quel est le contexte mondial concernant le diabète de type 2 ? 
+
+À l’échelle mondiale, le diabète de type 2 représente aujourd’hui un enjeu majeur de santé publique. Selon l’Organisation mondiale de la santé (OMS), plus de 530 millions de personnes en sont atteintes, un chiffre en constante augmentation sous l’effet du vieillissement de la population, de la sédentarité et d’une alimentation déséquilibrée. Cette pathologie chronique entraîne d’importantes complications cardiovasculaires et métaboliques, mais aussi un coût économique et social élevé pour les systèmes de santé. Dans ce contexte, l’utilisation de modèles prédictifs basés sur le machine learning apparaît comme une solution innovante pour anticiper les risques, améliorer la prévention personnalisée et orienter les politiques de santé vers une prise en charge plus précoce et ciblée. 
+
 """
-st.markdown(texte)
+
+Texte_obj_projet = """
+L’objectif de notre projet est de concevoir un modèle de prédiction du diabète à partir de données médicales et démographiques issues d’un large échantillon de population. À l’aide de modèles tels que la régression logistique et le Random Forest Classifier, nous cherchons à identifier les facteurs les plus déterminants (HbA1c, glucose, IMC, hypertension…) et à estimer la probabilité de développer un diabète de type 2.  
+
+Ce travail vise à démontrer que l’analyse de données massives peut devenir un outil d’aide à la décision fiable pour la prévention et le dépistage précoce du diabète, tout en contribuant à une meilleure compréhension des corrélations entre modes de vie et santé métabolique. 
+""""
+st.markdown(texte_intro)
+
+st.header('Objectif du projet')
+st.markdown(Texte_obj_projet)
+
+
+st.header('Donnée trouvée')
+texte_ori_donnee = """
+Le jeu de données utilisé provient d’une base publique (Kaggle) regroupant des informations médicales et démographiques de plusieurs milliers d’individus, accompagnées de leur statut diabétique (positif ou négatif). Il contient des variables clés telles que l’âge, le sexe, le BMI (indice de masse corporelle), la pression artérielle, la présence d’hypertension ou de maladies cardiaques, l’historique tabagique, ainsi que des paramètres biologiques comme le taux d’HbA1c et le niveau de glucose sanguin. Ces données constituent la base d’apprentissage pour les modèles de prédiction du diabète de type 2. 
+
+Vous pouver y accéder via ce lien ci-dessous :
+
+https://www.kaggle.com/datasets/iammustafatz/diabetes-prediction-dataset/data
+"""
+st.markdown(texte_ori_donnee)
 st.divider()
 
 df = pd.read_csv('diabetes_prediction_dataset.csv')
@@ -36,8 +59,6 @@ st.dataframe(df.info())
 st.subheader("Prétraitement des données")
 texte_2="""
 Les codes suivant nous ont permis d'enlever les lignes avec des valeurs manquantes ou non explicite et de transformer les variables textes en chiffres pour que les modèles puissent les prendres en compte :
-    
-    - Pour la colonne smoking_history :
 
 df_1 = df[df["smoking_history"] != "No Info"]
 
@@ -50,6 +71,22 @@ valeurs_uniques_smoking = df_3['smoking_history'].unique()
 df_3['smoking_history']  = df_3 ["smoking_history"].map({'never': 0, 'not current': 1, 'former': 2, 'ever': 2, 'current': 3})
    
 """
+texte_traitement = """
+Les principales étapes de prétraitement ont inclus : 
+
+- La suppression des valeurs “No Info” (notamment pour le tabagisme) 
+
+- La conversion des variables catégorielles en valeurs numériques (ex. : sexe, historique tabagique) 
+
+- La vérification et la normalisation des variables quantitatives 
+
+- L’analyse des valeurs aberrantes via des boxplots 
+
+- Puis une analyse exploratoire (EDA) pour identifier les tendances et les corrélations entre variables (ex. lien entre glucose, HbA1c et diabète). 
+
+Ce nettoyage garantit la cohérence et la fiabilité du jeu de données avant modélisation. 
+"""
+st.markdown(texte_traitement)
 
 st.markdown(texte_2)
 
