@@ -150,3 +150,41 @@ st.write("Description du dataset filtré :")
 st.dataframe(df_3.describe())
 st.write("Valeurs manquantes (filtrées) :")
 st.write(df_3.isnull().sum())
+
+
+
+st.title("Importer les données ici pour la prédiction du diabète 👨‍⚕️")
+
+# Option 1 : Upload depuis un csv
+uploaded_file = st.file_uploader("Importer un fichier CSV avec les colonnes: gender, age, hypertension, heart_disease, smoking_history, bmi, HbA1c_level, blood_glucose_level", type=["csv"])
+
+if uploaded_file:
+    df_inp = pd.read_csv(uploaded_file)
+    st.success("Aperçu du DataFrame importé :")
+    st.dataframe(df_inp)
+else:
+    st.info("Ou bien entrez manuellement les informations ici 👨‍⚕️:")
+    gender = st.selectbox("Genre", options=['Female', 'Male'])
+    age = st.number_input("Âge", min_value=0, max_value=120)
+    hypertension = st.selectbox("Hypertension", options=[0, 1])
+    heart_disease = st.selectbox("Problème cardiaque", options=[0, 1])
+    smoking_history = st.selectbox("Historique tabagique", options=['never', 'not current', 'former', 'ever', 'current'])
+    bmi = st.number_input("IMC", min_value=10.0, max_value=70.0, format="%.2f")
+    HbA1c_level = st.number_input("HbA1c level", min_value=3.0, max_value=20.0, format="%.2f")
+    blood_glucose_level = st.number_input("Blood glucose level", min_value=50.0, max_value=600.0, format="%.2f")
+
+    if st.button("Afficher l'entrée sous forme de DataFrame"):
+        df_inp = pd.DataFrame(
+            {
+                "gender": [gender],
+                "age": [age],
+                "hypertension": [hypertension],
+                "heart_disease": [heart_disease],
+                "smoking_history": [smoking_history],
+                "bmi": [bmi],
+                "HbA1c_level": [HbA1c_level],
+                "blood_glucose_level": [blood_glucose_level]
+            }
+        )
+        st.dataframe(df_inp)
+
