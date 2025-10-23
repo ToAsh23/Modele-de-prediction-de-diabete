@@ -36,13 +36,17 @@ st.dataframe(df.info())
 st.subheader("Prétraitement des données")
 texte_2="""
 Les codes suivant nous ont permis d'enlever les lignes avec des valeurs manquantes ou non explicite et de transformer les variables textes en chiffres pour que les modèles puissent les prendres en compte :
+    
     - Pour la colonne smoking_history :
+
 df_1 = df[df["smoking_history"] != "No Info"]
 
 df_2 = df_1[df_1["gender"] != "Other"]
+
 df_2['gender']  = df_2 ["gender"].map({'Female': 0, 'Male': 1}) (codage des 2 variables)
 
 valeurs_uniques_smoking = df_3['smoking_history'].unique()
+
 df_3['smoking_history']  = df_3 ["smoking_history"].map({'never': 0, 'not current': 1, 'former': 2, 'ever': 2, 'current': 3})
    
 """
@@ -121,16 +125,27 @@ st.pyplot(fig)
 
 texte_3 = """
 Nos 4 boxplots représentent la distribution des valeurs de différentes variables entre deux groupes : personnes atteintes de diabète ("Diabetes") et personnes non atteintes ("No Diabetes").
+
 Pour la variable "age" :
+   
     - Les non-diabétiques couvrent toute la gamme d’âges, avec une médiane plus basse.
+   
     - Les personnes atteintes de diabète sont plus âgées en moyenne avec une médiane plus élevée, intervalle supérieur, et moins de jeunes
+
 Pour la variable "bmi" ou Indice de Masse Corporelle
+   
     - les diabétiques ont un IMC supérieur à celui des non-diabétiques.
+
 Pour la variable "HbA1c_level" ou l'Hémoglobine glyquée :
+   
     - Le groupe diabétique a un HbA1c plus haute et des valeurs maximales clairement supérieures.
+   
     - Cette variable peut donc être très discriminante pour le diabète.
+
 Pour la variable blood_glucose_level (Glycémie) :
+    
     - Les diabétiques présentent des taux de glycémie nettement plus élevés.
+    
     - La distribution pour les non-diabétiques est centrée sur des valeurs plus basses, avec moins de dispersion.
 """
 st.markdown(texte_3)
