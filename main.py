@@ -13,22 +13,17 @@ from sklearn.metrics import confusion_matrix, accuracy_score, mean_squared_error
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 
 
-st.markdown("## 📋 Sommaire")
-st.markdown("""
-- [Introduction](#introduction)
-- [Objectif du projet](#objectif-du-projet)
-- [Donnée trouvée](#donnée-trouvée)
-- [Information sur notre DataFrame](#information-sur-notre-dataframe)
-- [Analyse exploratoire : visualisations](#analyse-exploratoire-visualisations)
-- [Distribution en fonction du diabète](#distribution-en-fonction-du-diabète)
-- [Préparation des Input et Output](#préparation-des-input-et-output)
-- [Justification du choix des modèles](#justification-du-choix-des-modèles)
-- [Performance des deux modèles](#performance-des-deux-modèles)
-- [Importance des variables du modèle Random Forest](#importance-des-variables-du-modèle-random-forest)
-- [Application Prédiction Diabète](#application-prédiction-diabète)
-""")
-st.divider()
-
+# SOMMAIRE DANS LA SIDEBAR
+with st.sidebar:
+    st.markdown("## 📋 Navigation")
+    st.page_link("", label="🏠 Introduction", disabled=False)
+    if st.button("Introduction"):
+        st.markdown('<a href="#introduction"></a>', unsafe_allow_html=True)
+    if st.button("Objectif du projet"):
+        st.markdown('<a href="#objectif-du-projet"></a>', unsafe_allow_html=True)
+    if st.button("Donnée trouvée"):
+        st.markdown('<a href="#donnée-trouvée"></a>', unsafe_allow_html=True)
+    # ... etc pour chaque section
 
 
 
