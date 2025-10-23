@@ -24,19 +24,33 @@ st.markdown(texte)
 st.divider()
 
 df = pd.read_csv('diabetes_prediction_dataset.csv')
-st.header("Vous pouvez voir ici la base de donnée complète pour l'entrainement de nos modèles")
+st.header("Information sur notre DataFrame")
+st.subheader("Vous pouvez trouver ci-dessous le DataFrame utilisé pour l'entrainement de nos modèle ")
+
 st.dataframe(df)
 
 st.write("Vous avez ici la description du DataFrame :")
-st.write(df.describe())
-st.write(df.info())
+st.dataframe(df.describe())
+st.dataframe(df.info())
+
+st.subheader("Prétraitement des données")
+texte_2="""
+Les codes suivant nous ont permis d'enlever les lignes avec des valeurs manquantes ou non explicite et de transformer les variables textes en chiffres pour que les modèles puissent les prendres en compte :
+    - Pour la colonne smoking_history :
+df_1 = df[df["smoking_history"] != "No Info"]
+
+df_2 = df_1[df_1["gender"] != "Other"]
+df_2['gender']  = df_2 ["gender"].map({'Female': 0, 'Male': 1}) (codage des 2 variables)
+
+valeurs_uniques_smoking = df_3['smoking_history'].unique()
+df_3['smoking_history']  = df_3 ["smoking_history"].map({'never': 0, 'not current': 1, 'former': 2, 'ever': 2, 'current': 3})
+   
+"""
+
+st.markdown(texte_2)
 
 df_1 = df[df["smoking_history"] != "No Info"]
-st.write("Info DataFrame filtré:")
-st.dataframe(df_1.info())
-st.dataframe(df_1.describe())
-st.write("Valeurs manquantes après filtre :")
-st.write(df_1.isnull().sum())
+
 
 df_2 = df_1[df_1["gender"] != "Other"]
 df_2['gender'] = df_2["gender"].map({'Female': 0, 'Male': 1})
@@ -46,11 +60,15 @@ valeurs_uniques_smoking = df_3['smoking_history'].unique()
 
 df_3['smoking_history'] = df_3["smoking_history"].map({'never': 0, 'not current': 1, 'former': 2, 'ever': 2, 'current': 3})
 df_3
+
+st.write("Info sur le DataFrame prétaité :")
+st.dataframe(df_3.info())
+st.dataframe(df_3.describe())
 st.divider()
+
+
+
 st.header("Analyse exploratoire : visualisations")
-
-
-
 
 st.subheader('Analyse interactive des variables')
 variables = ['age', 'bmi', 'HbA1c_level', 'blood_glucose_level','diabetes']
@@ -100,15 +118,31 @@ fig.legend([Patch(facecolor=colors[0]), Patch(facecolor=colors[1])],
            labels.values(), loc="upper right", title="Statut de diabète")
 plt.tight_layout()
 st.pyplot(fig)
-st.subheader("Histogramme")
-# Histogrammes
+
+texte_3 = """
+Nos 4 boxplots représentent la distribution des valeurs de différentes variables entre deux groupes : personnes atteintes de diabète ("Diabetes") et personnes non atteintes ("No Diabetes").
+Pour la variable "age" :
+    - Les non-diabétiques couvrent toute la gamme d’âges, avec une médiane plus basse.
+    - Les personnes atteintes de diabète sont plus âgées en moyenne avec une médiane plus élevée, intervalle supérieur, et moins de jeunes
+Pour la variable "bmi" ou Indice de Masse Corporelle
+    - les diabétiques ont un IMC supérieur à celui des non-diabétiques.
+Pour la variable "HbA1c_level" ou l'Hémoglobine glyquée :
+    - Le groupe diabétique a un HbA1c plus haute et des valeurs maximales clairement supérieures.
+    - Cette variable peut donc être très discriminante pour le diabète.
+Pour la variable blood_glucose_level (Glycémie) :
+    - Les diabétiques présentent des taux de glycémie nettement plus élevés.
+    - La distribution pour les non-diabétiques est centrée sur des valeurs plus basses, avec moins de dispersion.
+"""
+st.markdown(texte_3)
+
+# Histogramme mais je pense que ça serait pas utile à afficher parce qu'on a la déjà fais, vaut mieux tout de même garder pour garder le code source
 fig2, axarr = plt.subplots(2, 2, figsize=(10, 10))
 sns.histplot(df_3.age, bins=20, ax=axarr[0,0], color="red")
 sns.histplot(df_3.bmi, bins=20, ax=axarr[0,1], color="red")
 sns.histplot(df_3.blood_glucose_level, bins=20, ax=axarr[1,0], color="red")
 sns.histplot(df_3.HbA1c_level, bins=20, ax=axarr[1,1], color="red")
 plt.tight_layout()
-st.pyplot(fig2)
+
 
 st.subheader("Matrice de corrélation entre les Inputs et le Output")
 fig3, ax3 = plt.subplots(figsize=[10,5])
@@ -116,17 +150,11 @@ sns.heatmap(df_3.corr(), annot=True, fmt='.2f', ax=ax3, cmap='coolwarm')
 ax3.set_title("Correlation Matrix", fontsize=20)
 st.pyplot(fig3)
 
-st.subheader("Distribution des personnes atteintes de diabète après les prétraitements")
-fig4, ax = plt.subplots(1,2, figsize=(18,8))
-df_3['diabetes'].value_counts().plot.pie(explode=[0,0.1], autopct = "%1.1f%%", ax=ax[0], shadow=True)
-ax[0].set_title('target')
-ax[0].set_ylabel('')
-sns.countplot(x='diabetes', data=df_3, ax=ax[1])
-ax[1].set_title('diabetes')
-st.pyplot(fig4)
+texte_4="""
 
-# Régression linéaire plots
-st.subheader("Dans les figures ci-dessous on peut voir la corrélation direct entre les Inputs et le Output")
+"""
+#### C'est pour le modèle de régression linéaire donc pas utile pour nous je vais donc l'enlever
+"""st.write("Dans les figures ci-dessous on peut voir la corrélation direct entre les Inputs et le Output")
 fig5, axs = plt.subplots(ncols=4, nrows=2, figsize=(20, 7))
 sns.regplot(y=df_3['diabetes'], x=df_3['gender'], ax=axs[0, 0])
 sns.regplot(y=df_3['diabetes'], x=df_3['age'], ax=axs[0, 1])
@@ -137,15 +165,32 @@ sns.regplot(y=df_3['diabetes'], x=df_3['bmi'], ax=axs[1, 1])
 sns.regplot(y=df_3['diabetes'], x=df_3['HbA1c_level'], ax=axs[1, 2])
 sns.regplot(y=df_3['diabetes'], x=df_3['blood_glucose_level'], ax=axs[1, 3])
 plt.tight_layout()
-st.pyplot(fig5)
+st.pyplot(fig5)"""
+
+
+
+st.subheader("Distribution des personnes atteintes de diabète après les traitements effectués")
+fig4, ax = plt.subplots(1,2, figsize=(18,8))
+df_3['diabetes'].value_counts().plot.pie(explode=[0,0.1], autopct = "%1.1f%%", ax=ax[0], shadow=True)
+ax[0].set_title('target')
+ax[0].set_ylabel('')
+sns.countplot(x='diabetes', data=df_3, ax=ax[1])
+ax[1].set_title('diabetes')
+st.pyplot(fig4)
+texte_5 = """
+Dans l'ensemble nos données contiennent plus de 
+"""
 
 
 st.divider()
+
+st.header("Préparation des Input et Output")
 # Split data
 col_name = df_3.drop('diabetes', axis=1).columns[:]
 x = df_3.loc[:, col_name]
 y = df_3['diabetes']
 X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
+
 
 log_reg = LogisticRegression()
 rand_clf = RandomForestClassifier(criterion='entropy', max_depth=15, max_features=0.75, min_samples_leaf=2, min_samples_split=3, n_estimators=130)
@@ -198,6 +243,27 @@ st.write("Matrice de confusion RF :", confusion_matrix(y_test, rand_clf.predict(
 st.dataframe(df_3.describe())
 st.write("Valeurs manquantes (filtrées) :")
 st.write(df_3.isnull().sum())'''
+
+
+st.divider()
+
+st.subheader("Importance des variables pour le modèle RF")
+feature_names = X_train.columns.tolist()
+importances = pd.DataFrame({
+    'Feature': feature_names,
+    'Importance': rand_clf.feature_importances_
+}).sort_values(by='Importance', ascending=False)
+
+st.header("Importance des variables du modèle Random Forest")
+
+fig_imp_rf, ax = plt.subplots(figsize=(6, 4))
+sns.barplot(x='Importance', y='Feature', data=importances, palette='viridis', ax=ax)
+ax.set_xlabel("Importance dans le modèle")
+ax.set_ylabel("Variable")
+ax.set_title("Importance des variables (Random Forest)")
+plt.tight_layout()
+
+st.pyplot(fig_imp_rf)
 
 
 st.divider()
