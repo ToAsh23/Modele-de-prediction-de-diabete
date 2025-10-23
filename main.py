@@ -17,6 +17,118 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 
 
 
+# === CLASSE TOC POUR LE SOMMAIRE ===
+class Toc:
+    def __init__(self):
+        self._items = []
+        self._placeholder = None
+
+    def title(self, text):
+        self._markdown(text, "h1")
+
+    def header(self, text):
+        self._markdown(text, "h2", " " * 2)
+
+    def subheader(self, text):
+        self._markdown(text, "h3", " " * 4)
+
+    def placeholder(self, sidebar=False):
+        self._placeholder = st.sidebar.empty() if sidebar else st.empty()
+
+    def generate(self):
+        if self._placeholder:
+            self._placeholder.markdown("\n".join(self._items), unsafe_allow_html=True)
+
+    def _markdown(self, text, level, space=""):
+        key = re.sub('[^0-9a-zA-Z]+', '-', text).lower()
+        st.markdown(f"<{level} id='{key}'>{text}</{level}>", unsafe_allow_html=True)
+        self._items.append(f"{space}* <a href='#{key}'>{text}</a>")
+
+# === INITIALISATION DU SOMMAIRE ===
+toc = Toc()
+
+st.set_page_config(page_title="Vision générale", layout="wide")
+st.title('Projet : Prédiction de diabète')
+
+# === SOMMAIRE EN HAUT ===
+st.markdown("## 📋 Sommaire")
+toc.placeholder()
+st.divider()
+
+# === VOS HEADERS DEVIENNENT ===
+toc.header('Introduction')
+# Votre contenu existant...
+
+toc.header('Objectif du projet')
+# Votre contenu existant...
+
+toc.header('Donnée trouvée')
+# Votre contenu existant...
+
+toc.header("Information sur notre DataFrame")
+# Votre contenu existant...
+
+toc.subheader("Prétraitement des données")
+# Votre contenu existant...
+
+toc.header("Analyse exploratoire : visualisations")
+# Votre contenu existant...
+
+toc.subheader('Analyse interactive des variables')
+# Votre contenu existant...
+
+toc.header ('Distribution en fonction du diabète')
+# Votre contenu existant...
+
+toc.subheader("Boîte à moustache en fonction du Diabète")
+# Votre contenu existant...
+
+toc.subheader("Matrice de corrélation entre les Inputs et le Output")
+# Votre contenu existant...
+
+toc.subheader("Distribution des personnes atteintes de diabète après les traitements effectués")
+# Votre contenu existant...
+
+toc.header("Préparation des Input et Output")
+# Votre contenu existant...
+
+toc.subheader("Visualisation des Input et Output")
+# Votre contenu existant...
+
+toc.header("Justification du choix des modèles")
+# Votre contenu existant...
+
+toc.header("Performance des deux modèles")
+# Votre contenu existant...
+
+toc.subheader("Evaluation du model LR")
+# Votre contenu existant...
+
+toc.subheader("Evalutaion du RF")
+# Votre contenu existant...
+
+toc.header("Importance des variables du modèle Random Forest")
+# Votre contenu existant...
+
+# === À LA TOUTE FIN, JUSTE AVANT LA FIN DU FICHIER ===
+toc.generate()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 st.set_page_config(page_title="Vision générale", layout="wide")
 st.title('Projet : Prédiction de diabète')
 st.header('Introduction')
