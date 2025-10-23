@@ -235,7 +235,10 @@ col_name = df_3.drop('diabetes', axis=1).columns[:]
 x = df_3.loc[:, col_name]
 y = df_3['diabetes']
 X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
-
+X_train
+X_test
+y_train
+y_test
 st.subheader("Visualisation des Input et Output")
 st.dataframe(X_train.info())
 st.dataframe(y_train.info())
