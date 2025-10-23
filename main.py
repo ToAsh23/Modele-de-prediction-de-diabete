@@ -328,7 +328,7 @@ st.pyplot(fig_imp_rf)
 texte_imp ="""
 https://drive.google.com/file/d/1KS9aaKJ5Dr71udbvFlyXEhC1azMgBEt0/view?usp=sharing
 """
-
+st.markdown(texte_imp)
 st.divider()
 st.set_page_config(page_title="Prédiction du diabète", layout="wide")
 st.title("Application Prédiction Diabète")
