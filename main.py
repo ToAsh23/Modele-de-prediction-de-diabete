@@ -102,8 +102,8 @@ valeurs_uniques_smoking = df_3['smoking_history'].unique()
 df_3['smoking_history'] = df_3["smoking_history"].map({'never': 0, 'not current': 1, 'former': 2, 'ever': 2, 'current': 3})
 df_3
 
-st.write("Info sur le DataFrame prétaité :")
-st.dataframe(df_3.info())
+st.write("Info sur le DataFrame prétraité :")
+
 st.dataframe(df_3.describe())
 st.divider()
 
