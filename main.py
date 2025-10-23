@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import plotly.express as px
 from matplotlib.patches import Patch
 from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
@@ -53,25 +54,27 @@ st.header("Analyse exploratoire : visualisations")
 
 st.subheader('Analyse interactive des variables')
 
-variables = ['age', 'bmi', 'HbA1c_level', 'blood_glucose_level']
-
 st.write("Sélectionnez la variable quantitative que vous voulez explorer :")
 variable_select = st.selectbox('Choisissez une variable', variables)
 df_3 = df_2.copy()
+
 if st.checkbox('Afficher les analyses et graphiques'):
     st.write(f'Variable sélectionnée : **{variable_select}**')
-    # Trois colonnes pour histogramme, boxplot et stats
+    numeric_data = df_3.dropna(subset=[variable_select])
     col1, col2, col3 = st.columns(3)
     with col1:
-        fig = px.histogram(df_3, x=variable_select, nbins=20, color_discrete_sequence=["mediumturquoise"])
+        fig = px.histogram(numeric_data, x=variable_select, nbins=20, color_discrete_sequence=["mediumturquoise"])
         st.plotly_chart(fig, use_container_width=True)
     with col2:
-        fig2 = px.box(df_3, y=variable_select, color_discrete_sequence=["orange"])
+        fig2 = px.box(numeric_data, y=variable_select, color_discrete_sequence=["orange"])
         st.plotly_chart(fig2, use_container_width=True)
     with col3:
-        st.metric("Min", np.round(df_3[variable_select].min(), 3))
-        st.metric("Max", np.round(df_3[variable_select].max(), 3))
-        st.metric("Moyenne", np.round(df_3[variable_select].mean(), 3))
+        st.metric("Min", np.round(numeric_data[variable_select].min(), 3))
+        st.metric("Max", np.round(numeric_data[variable_select].max(), 3))
+        st.metric("Moyenne", np.round(numeric_data[variable_select].mean(), 3))
+
+
+st.divider()
 
 st.header ('Distribution en fonction du diabète')
 
