@@ -276,13 +276,13 @@ for m in models:
 
 st.header("Justification du choix des modèles")
 texte_just = """
-La "Logistic Regression" est très utile pour un problème de classification binaire (diabète oui/non) et interprète le risque en donnant une probabilité d'appartenance (Menard, 2002.  
+La "Logistic Regression" est très utile pour un problème de classification binaire (diabète oui/non) et interprète le risque en donnant une probabilité d'appartenance (Menard, 2002).  
 
 De l'autre côté le 'Random Forest Classifier" est un modèle non linéaire, c'est à dire il capture les interactions entre variables, et permet de définir l'importance des variables (Hasan et al., 2025).
 Le Random Forest est un modèle d’ensemble, basé sur de multiples arbres de décision, et il est également reconnu pour sa robustesse et sa fiabilité accrues par rapport à d'autres méthodes d'apprentissage (Hasan et al., 2025). De plus, Kavakiotis et al. (2017) ont montré que Random Forest peut atteindre une excellente précision dans la prédiction du diabète.
 Le Random Forest atteint ainsi des taux de précision élevés dans la prédiction de l'apparition du diabète  à partir de données démographiques, cliniques et liées au mode de vie, tout en fournissant un classement fiable de l’importance des variables explicatives (telles que le glucose ou l’IMC) (Alam et al., 2024).
 
-# Source :
+Source :
 
 - I. Kavakiotis,O. Tsave, A. Salifoglou,Nicos Maglaveras, I. Vlahavas,I. Chouvarda. (2017). Machine Learning and Data Mining Methods in Diabetes Research. Computational and Structural Biotechnology Journal. Volume 15, 2017, Pages 104-116. DOI : https://doi.org/10.1016/j.csbj.2016.12.005
 
