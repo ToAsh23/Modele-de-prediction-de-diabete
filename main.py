@@ -16,19 +16,6 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 st.set_page_config(page_title="Vision générale", layout="wide")
 st.title('Projet : Prédiction de diabète')
 st.header('Introduction')
