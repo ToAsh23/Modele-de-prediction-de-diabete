@@ -57,7 +57,7 @@ variables = ['age', 'bmi', 'HbA1c_level', 'blood_glucose_level']
 
 st.write("Sélectionnez la variable quantitative que vous voulez explorer :")
 variable_select = st.selectbox('Choisissez une variable', variables)
-
+df_3 = df_2.copy()
 if st.checkbox('Afficher les analyses et graphiques'):
     st.write(f'Variable sélectionnée : **{variable_select}**')
     # Trois colonnes pour histogramme, boxplot et stats
@@ -73,7 +73,7 @@ if st.checkbox('Afficher les analyses et graphiques'):
         st.metric("Max", np.round(df_3[variable_select].max(), 3))
         st.metric("Moyenne", np.round(df_3[variable_select].mean(), 3))
 
-
+st.header ('Distribution en fonction du diabète')
 
 st.subheader("Boîte à moustache en fonction du Diabète")
 
