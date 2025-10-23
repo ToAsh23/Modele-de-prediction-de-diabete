@@ -81,7 +81,7 @@ ax[1].set_title('diabetes')
 st.pyplot(fig4)
 
 # Régression linéaire plots
-fig5, axs = plt.subplots(ncols=3, nrows=3, figsize=(20, 20))
+fig5, axs = plt.subplots(ncols=4, nrows=2, figsize=(20, 7))
 sns.regplot(y=df_3['diabetes'], x=df_3['gender'], ax=axs[0, 0])
 sns.regplot(y=df_3['diabetes'], x=df_3['age'], ax=axs[0, 1])
 sns.regplot(y=df_3['diabetes'], x=df_3['hypertension'], ax=axs[0, 2])
