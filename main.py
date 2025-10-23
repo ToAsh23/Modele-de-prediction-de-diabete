@@ -28,7 +28,7 @@ Texte_obj_projet = """
 L’objectif de notre projet est de concevoir un modèle de prédiction du diabète à partir de données médicales et démographiques issues d’un large échantillon de population. À l’aide de modèles tels que la régression logistique et le Random Forest Classifier, nous cherchons à identifier les facteurs les plus déterminants (HbA1c, glucose, IMC, hypertension…) et à estimer la probabilité de développer un diabète de type 2.  
 
 Ce travail vise à démontrer que l’analyse de données massives peut devenir un outil d’aide à la décision fiable pour la prévention et le dépistage précoce du diabète, tout en contribuant à une meilleure compréhension des corrélations entre modes de vie et santé métabolique. 
-""""
+"""
 st.markdown(texte_intro)
 
 st.header('Objectif du projet')
