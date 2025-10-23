@@ -201,9 +201,9 @@ elif mode == "Remplir le formulaire manuellement":
     hypertension = st.selectbox("Hypertension ?", ["Non", "Oui"])
     heart_disease = st.selectbox("Problème cardiaque ?", ["Non", "Oui"])
     smoking = st.selectbox("Historique tabagique", ["never", "not current", "former", "ever", "current"])
-    bmi = st.number_input("IMC", min_value=10.0, max_value=60.0, value=25.0)
+    bmi = st.number_input("IMC", min_value=5.0, max_value=90.0, value=25.0)
     a1c = st.number_input("HbA1c", min_value=2.0, max_value=18.0, value=5.2)
-    glucose = st.number_input("Glycémie", min_value=30.0, max_value=500.0, value=100.0)
+    glucose = st.number_input("Glycémie", min_value=30.0, max_value=600.0, value=100.0)
 
     input_df = pd.DataFrame({
         'gender': [gender_num],
