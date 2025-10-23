@@ -48,6 +48,33 @@ df_3['smoking_history'] = df_3["smoking_history"].map({'never': 0, 'not current'
 st.divider()
 st.header("Analyse exploratoire : visualisations")
 
+
+
+
+st.subheader('Analyse interactive des variables')
+
+variables = ['age', 'bmi', 'HbA1c_level', 'blood_glucose_level']
+
+st.write("Sélectionnez la variable quantitative que vous voulez explorer :")
+variable_select = st.selectbox('Choisissez une variable', variables)
+
+if st.checkbox('Afficher les analyses et graphiques'):
+    st.write(f'Variable sélectionnée : **{variable_select}**')
+    # Trois colonnes pour histogramme, boxplot et stats
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        fig = px.histogram(df_3, x=variable_select, nbins=20, color_discrete_sequence=["mediumturquoise"])
+        st.plotly_chart(fig, use_container_width=True)
+    with col2:
+        fig2 = px.box(df_3, y=variable_select, color_discrete_sequence=["orange"])
+        st.plotly_chart(fig2, use_container_width=True)
+    with col3:
+        st.metric("Min", np.round(df_3[variable_select].min(), 3))
+        st.metric("Max", np.round(df_3[variable_select].max(), 3))
+        st.metric("Moyenne", np.round(df_3[variable_select].mean(), 3))
+
+
+
 st.subheader("Boîte à moustache en fonction du Diabète")
 
 num_features = ["age", "bmi", "HbA1c_level", "blood_glucose_level"]
