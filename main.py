@@ -339,6 +339,11 @@ ax.set_title("Importance des variables (Random Forest)")
 plt.tight_layout()
 
 st.pyplot(fig_imp_rf)
+st.divider()
+
+
+
+st.header("Vous pouvez consulter notre notebook via ce lien 😉")
 
 texte_imp ="""
 https://drive.google.com/file/d/1KS9aaKJ5Dr71udbvFlyXEhC1azMgBEt0/view?usp=sharing
