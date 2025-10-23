@@ -48,7 +48,8 @@ df_3['smoking_history'] = df_3["smoking_history"].map({'never': 0, 'not current'
 st.divider()
 st.header("Analyse exploratoire : visualisations")
 
-st.write("Boîte à moustache en fonction du Diabète")
+st.subheader("Boîte à moustache en fonction du Diabète")
+
 num_features = ["age", "bmi", "HbA1c_level", "blood_glucose_level"]
 colors = {0: "steelblue", 1: "salmon"}
 labels = {0: "No Diabetes", 1: "Diabetes"}
@@ -68,7 +69,7 @@ fig.legend([Patch(facecolor=colors[0]), Patch(facecolor=colors[1])],
            labels.values(), loc="upper right", title="Statut de diabète")
 plt.tight_layout()
 st.pyplot(fig)
-
+st.subheader("Histogramme")
 # Histogrammes
 fig2, axarr = plt.subplots(2, 2, figsize=(10, 10))
 sns.histplot(df_3.age, bins=20, ax=axarr[0,0], color="red")
@@ -78,13 +79,13 @@ sns.histplot(df_3.HbA1c_level, bins=20, ax=axarr[1,1], color="red")
 plt.tight_layout()
 st.pyplot(fig2)
 
-st.write("Matrice de corrélation entre les Inputs et le Output")
+st.subheader("Matrice de corrélation entre les Inputs et le Output")
 fig3, ax3 = plt.subplots(figsize=[10,5])
 sns.heatmap(df_3.corr(), annot=True, fmt='.2f', ax=ax3, cmap='coolwarm')
 ax3.set_title("Correlation Matrix", fontsize=20)
 st.pyplot(fig3)
 
-st.write("Distribution des personnes atteintes de diabète après les prétraitements")
+st.subheader("Distribution des personnes atteintes de diabète après les prétraitements")
 fig4, ax = plt.subplots(1,2, figsize=(18,8))
 df_3['diabetes'].value_counts().plot.pie(explode=[0,0.1], autopct = "%1.1f%%", ax=ax[0], shadow=True)
 ax[0].set_title('target')
@@ -94,7 +95,7 @@ ax[1].set_title('diabetes')
 st.pyplot(fig4)
 
 # Régression linéaire plots
-st.write("Dans les figures ci-dessous on peut voir la corrélation direct entre les Inputs et le Output")
+st.subheader("Dans les figures ci-dessous on peut voir la corrélation direct entre les Inputs et le Output")
 fig5, axs = plt.subplots(ncols=4, nrows=2, figsize=(20, 7))
 sns.regplot(y=df_3['diabetes'], x=df_3['gender'], ax=axs[0, 0])
 sns.regplot(y=df_3['diabetes'], x=df_3['age'], ax=axs[0, 1])
@@ -154,18 +155,18 @@ ax6.set_xticklabels(['LR', 'RF'], rotation=0, fontsize=12)
 ax6.legend(loc="upper right", fontsize=10)
 st.pyplot(fig6)
 
-st.subheader("Classification report LR")
+st.subheader("Evaluation du model LR")
 st.text(classification_report(y_test, log_reg.predict(X_test)))
-st.subheader("Classification report RF")
+st.subheader("Evalutaion du RF")
 st.text(classification_report(y_test, rand_clf.predict(X_test)))
 st.write("Matrice de confusion LR :", confusion_matrix(y_test, log_reg.predict(X_test)))
 st.write("Matrice de confusion RF :", confusion_matrix(y_test, rand_clf.predict(X_test)))
 
 # Tu peux compléter avec tous tes tableaux à afficher ainsi :
-st.write("Description du dataset filtré :")
+'''st.write("Description du dataset filtré :")
 st.dataframe(df_3.describe())
 st.write("Valeurs manquantes (filtrées) :")
-st.write(df_3.isnull().sum())
+st.write(df_3.isnull().sum())'''
 
 
 st.divider()
