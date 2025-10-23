@@ -14,41 +14,52 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 
 
 
+
+
 import re
 
+# Classe pour gérer le sommaire automatique
 class Toc:
     def __init__(self):
         self._items = []
-        self._placeholder = None  # Référence au widget Streamlit où le sommaire s'affichera
+        self._placeholder = None
+        self._orig_header = st.header
+        self._orig_subheader = st.subheader
+
+        # On monkey-patch st.header et st.subheader pour les écouter
+        st.header = self.header
+        st.subheader = self.subheader
 
     def title(self, text):
         self._markdown(text, "h1")
 
     def header(self, text):
-        self._markdown(text, "h2", " " * 2)
+        self._add_to_toc(text, "h2", "  ")
+        return self._orig_header(text)
 
     def subheader(self, text):
-        self._markdown(text, "h3", " " * 4)
+        self._add_to_toc(text, "h3", "    ")
+        return self._orig_subheader(text)
 
     def placeholder(self, sidebar=False):
-        # Affiche le sommaire en haut de la page ou en sidebar selon l'option
         self._placeholder = st.sidebar.empty() if sidebar else st.empty()
 
     def generate(self):
         if self._placeholder:
-            self._placeholder.markdown("\n".join(self._items), unsafe_allow_html=True)
+            self._placeholder.markdown(
+                "## 📋 Sommaire\n" + "\n".join(self._items), unsafe_allow_html=True
+            )
 
-    def _markdown(self, text, level, space=""):
-        # Crée une ancre html et ajoute le lien dans le sommaire
-        key = re.sub('[^0-9a-zA-Z]+', '-', text).lower()
-        st.markdown(f"<{level} id='{key}'>{text}</{level}>", unsafe_allow_html=True)
+    def _add_to_toc(self, text, level, space=""):
+        key = re.sub(r'[^0-9a-zA-Z]+', '-', text).lower()
+        # crée une ancre invisible
+        st.markdown(f"<{level} id='{key}'></{level}>", unsafe_allow_html=True)
         self._items.append(f"{space}* <a href='#{key}'>{text}</a>")
 
-# Init du sommaire
+# Initialisation auto du sommaire et affichage en haut :
 toc = Toc()
-
-
-
+toc.placeholder()
+st.divider()
 
 
 
@@ -449,4 +460,9 @@ if input_df is not None and st.button("Prédire le diabète"):
     pred_rf = randforest.predict(input_df)
     st.success(f"**Régression logistique prédit :** {'Diabétique' if pred_lr[0]==1 else 'Non diabétique'}")
     st.success(f"**Random Forest prédit :** {'Diabétique' if pred_rf[0]==1 else 'Non diabétique'}")
+
+
+
+
+toc.generate()
 
