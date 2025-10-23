@@ -334,7 +334,7 @@ https://drive.google.com/file/d/1KS9aaKJ5Dr71udbvFlyXEhC1azMgBEt0/view?usp=shari
 st.markdown(texte_imp)
 st.divider()
 st.set_page_config(page_title="Prédiction du diabète", layout="wide")
-st.title("Application Prédiction Diabète")
+st.title("Application Prédiction Diabète 👩‍⚕️📝")
 
 # ==== Charger les données et entrainer les modèles ====
 @st.cache_data
@@ -407,7 +407,4 @@ if input_df is not None and st.button("Prédire le diabète"):
     st.success(f"**Random Forest prédit :** {'Diabétique' if pred_rf[0]==1 else 'Non diabétique'}")
 
 
-
-
-toc.generate()
 
