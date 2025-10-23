@@ -14,6 +14,49 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 
 
 
+import re
+
+class Toc:
+    def __init__(self):
+        self._items = []
+        self._placeholder = None  # Référence au widget Streamlit où le sommaire s'affichera
+
+    def title(self, text):
+        self._markdown(text, "h1")
+
+    def header(self, text):
+        self._markdown(text, "h2", " " * 2)
+
+    def subheader(self, text):
+        self._markdown(text, "h3", " " * 4)
+
+    def placeholder(self, sidebar=False):
+        # Affiche le sommaire en haut de la page ou en sidebar selon l'option
+        self._placeholder = st.sidebar.empty() if sidebar else st.empty()
+
+    def generate(self):
+        if self._placeholder:
+            self._placeholder.markdown("\n".join(self._items), unsafe_allow_html=True)
+
+    def _markdown(self, text, level, space=""):
+        # Crée une ancre html et ajoute le lien dans le sommaire
+        key = re.sub('[^0-9a-zA-Z]+', '-', text).lower()
+        st.markdown(f"<{level} id='{key}'>{text}</{level}>", unsafe_allow_html=True)
+        self._items.append(f"{space}* <a href='#{key}'>{text}</a>")
+
+# Init du sommaire
+toc = Toc()
+
+
+
+
+
+
+
+
+
+
+
 
 
 st.set_page_config(page_title="Vision générale", layout="wide")
